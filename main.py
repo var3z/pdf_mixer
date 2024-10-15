@@ -1,9 +1,9 @@
-from pypdf import PdfReader, PdfWriter
-import questionary
+import logging
 import os
 import sys
-import logging
 
+import questionary
+from pypdf import PdfReader, PdfWriter
 
 logger = logging.getLogger(__name__)
 
