@@ -7,10 +7,3 @@ pre-commit:
     isort:
       glob: "*.py"
       run: isort {staged_files}
-pre-push:
-  skip:
-    - ref: feature/*
-    - ref: develop
-  commands:
-    pytest:
-      run: docker compose -f test.yml run test_runner sh -c "export IS_CI_PIPELINE=True && coverage erase && coverage run -m pytest && coverage html"
