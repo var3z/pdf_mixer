@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    ruff:
+      glob: "*.py"
+      run: ruff check --force-exclude --fix {staged_files}
+    isort:
+      glob: "*.py"
+      run: isort {staged_files}
+pre-push:
+  skip:
+    - ref: feature/*
+    - ref: develop
+  commands:
+    pytest:
+      run: docker compose -f test.yml run test_runner sh -c "export IS_CI_PIPELINE=True && coverage erase && coverage run -m pytest && coverage html"

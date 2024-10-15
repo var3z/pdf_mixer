@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // https://code.visualstudio.com/docs/devcontainers/containers
+            "name": "Docker PDFMixer: Attach Debugger",
+            "type": "debugpy",
+            "request": "attach",
+            "subProcess": true,
+            "justMyCode": false,
+            "connect": {
+                "host": "0.0.0.0",
+                "port": 5679
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/app"
+                },
+                {
+                    "localRoot": "/home/alvaro/.pyenv/versions/3.11.9/envs/pdfmixer/lib/python3.11/site-packages",
+                    "remoteRoot": "/home/app_user/.local/lib/python3.11/site-packages"
+                },
+                {
+                    "localRoot": "/home/alvaro/.pyenv/versions/pdfmixer/lib/python3.11/site-packages",
+                    "remoteRoot": "/home/app_user/.local/lib/python3.11/site-packages"
+                },
+            ]
+        },
+    ],
+}

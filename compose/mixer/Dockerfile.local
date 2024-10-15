@@ -1,0 +1,32 @@
+ARG PYTHON_VERSION=3.11-slim-bullseye
+
+# define an alias for the specfic python version used in this file.
+FROM python:${PYTHON_VERSION} AS python
+
+ARG BUILD_ENVIRONMENT=local
+ARG APP_HOME=/app
+ARG LOGS_PATH=${APP_HOME}/logs/
+ARG PYTHONDONTWRITEBYTECODE=0
+ARG PYTHONUNBUFFERED=0
+ARG UID=1000
+ARG GID=1000
+ARG USERNAME=app_user
+
+ENV PYTHONUNBUFFERED ${PYTHONUNBUFFERED}
+ENV PYTHONDONTWRITEBYTECODE ${PYTHONDONTWRITEBYTECODE}
+
+# Create regular user
+RUN groupadd -g ${GID} -o ${USERNAME}
+RUN useradd -m -u ${UID} -g ${GID} -o -s /bin/bash ${USERNAME}
+RUN echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+USER ${USERNAME}
+
+# Copy requirements
+COPY --chown=${UID}:${GID} ./requirements .
+
+# Install requirements
+ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+RUN pip install --user -r ${BUILD_ENVIRONMENT}.txt
+
+VOLUME ${APP_HOME}
+WORKDIR ${APP_HOME}
